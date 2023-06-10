@@ -1,0 +1,164 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+template <typename T>
+class Vector{
+private:
+    float *arr;
+    int len;
+public:
+    Vector(){
+        arr = new float[5];
+    }
+
+    Vector(T a[], int length){
+        len = length;
+        arr = new float[len];
+        for(int i=0; i< len; i++){
+            arr[i] = a[i];
+        }
+    }
+
+    template <typename Q>
+    Vector<T> operator/(Q a) {
+        Vector<T> result = *this;
+        for (int i = 0; i < len; i++) {
+            result.arr[i] = result.arr[i] / a;
+        }
+
+        return result;
+    }
+
+
+    template<typename Q>
+    float operator^(const Vector<Q> &v){
+        float sum = 0;
+        for(int i=0; i<len; i++){
+            sum += arr[i] * v.arr[i];
+        }
+
+        return sum;
+    }
+
+    template<typename Q>
+    Vector<Q> operator-(const Vector<Q> &v){
+        Vector<T> v0 = *this;
+        for(int i=0; i<len; i++){
+            v0.arr[i] = v0.arr[i] - v.arr[i];
+        }
+
+        return v0;
+    }
+
+    template <typename Q, typename U>
+    friend Vector<U> operator*(Q a, const Vector<U>& v) {
+        Vector<U> result = v;
+        for (int i = 0; i < result.len; i++) {
+            result.arr[i] = result.arr[i] * a;
+        }
+        cout << v;
+        return result;
+    }
+
+
+
+
+    float mode_value(){
+        float sum = 0;
+        for(int i=0; i<len; i++){
+            sum += (arr[i] * arr[i]);
+        }
+
+        return sqrt(sum);
+    }
+
+    template<typename U>
+    friend ostream& operator<<(ostream &out, const Vector<U> &v);
+
+
+};
+
+template <typename T>
+ostream& operator<<(ostream &out, const Vector<T> &v){
+    for(int i=0; i< v.len; i++){
+        out << v.arr[i] << "e" << i;
+        if( i != (v.len-1)){
+            out << " + ";
+        }
+    }
+
+    return out;
+}
+
+
+
+int main()
+{
+    int n = 4;
+//    int a[n][n] = {
+//                    {1, 0, 2, 1},
+//                    {0, 1, 8, -6},
+//                    {2, 8, 3, 2},
+//                    {1, -6, 2, 3}
+//                };
+//
+    int a[n] = {1, 0, 2, 1};
+    int b[n] = {0, 1, 8, -6};
+    int c[n] = {2, 8, 3, 2};
+    int d[n] = {1, -6, 2, 3};
+
+    Vector<int> v1(a, n);
+    Vector<int> v2(b, n);
+//    Vector<int> v3(a[2], n);
+//    Vector<int> v4(a[3], n);
+    cout << v1 << endl;
+
+    v1 = v1 / v1.mode_value();
+    cout << v1 << endl;
+
+    v2 = 3 * v1;
+
+    //new vector 1
+//    v1 = v1 / v1.mode_value();
+//    cout << v1 << endl;
+//    //new vector 2
+//    Vector<int> temp = v1;
+//    v2 = ((v1 ^ v2) * temp);
+//
+//    cout << v1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // v2 = v2 / v2.mode_value();
+    //cout << v1;
+    //new vector 3
+//    v3 = v3 - ((v2 ^ v3)) * v2;
+//    v3 = v3 / v3.mode_value();
+//    //new vector 4
+//    v4 = v4 - ((v3 ^ v4)) * v3;
+//    v4 = v4 / v4.mode_value();
+
+
+//    cout << v1 << endl;
+//    cout << v2 << endl;
+//    cout << v3 << endl;
+//    cout << v4 << endl;
+
+
+
+
+    return 0;
+}
